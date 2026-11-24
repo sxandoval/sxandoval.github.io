@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Claude Setup Guide</title>
+<meta name="description" content="Step by step: set up Claude the way Sxandoval does, from your phone or computer.">
+<meta property="og:title" content="Set up Claude, step by step">
+<meta property="og:description" content="The same setup Sxandoval uses: Claude Pro, the desktop app, your own kit, and running it from your phone.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one reading column; numbered steps (it really is a sequence), each a card with a check-off box; copyable prompts. */
+:root {
+  --bg: #f6f3ee; --surface: #ffffff; --ink: #1a1720; --muted: #6b6474; --line: #e4ded6;
+  --accent: #e0262f; --accent-ink: #ffffff; --done: #1f8a5b; --code: #f1ece6;
+  --display: "Archivo Black", "Arial Black", Impact, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f0d13; --surface: #19161f; --ink: #f4efe8; --muted: #a59eae; --line: #2c2734;
+  --accent: #ff3b44; --accent-ink: #ffffff; --done: #3ccf8e; --code: #221e29; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #0f0d13; --surface: #19161f; --ink: #f4efe8; --muted: #a59eae; --line: #2c2734;
+  --accent: #ff3b44; --accent-ink: #ffffff; --done: #3ccf8e; --code: #221e29; color-scheme: dark; }
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--body); }
+.wrap { max-width: 680px; margin: 0 auto; padding-block: calc(env(safe-area-inset-top, 0px) + 40px) calc(env(safe-area-inset-bottom, 0px) + 60px);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 28px; }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+h1 { font-family: var(--display); font-size: clamp(34px, 8vw, 52px); line-height: 1.02; margin: 8px 0 12px; text-wrap: balance; }
+.lede { color: var(--muted); font-size: 17px; margin: 0; max-width: 60ch; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.chip { font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
+.progress { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 10px; display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 600; color: var(--muted); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.progress .bar { flex: 1; height: 6px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.progress .bar i { display: block; height: 100%; width: 0; background: var(--done); transition: width .3s; }
+ol.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; counter-reset: s; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 18px 64px; position: relative; min-width: 0; }
+.step::before { counter-increment: s; content: counter(s); position: absolute; left: 16px; top: 16px; width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center; font-family: var(--display); font-size: 15px; background: var(--accent); color: var(--accent-ink); }
+.step.done::before { content: "✓"; background: var(--done); }
+.step h2 { font-size: 18px; margin: 4px 0 6px; line-height: 1.3; }
+.step p, .step li { color: var(--ink); }
+.step p { margin: 6px 0; }
+.step .why { color: var(--muted); font-size: 14px; }
+.step ul { margin: 6px 0; padding-left: 20px; }
+.step a { color: var(--accent); font-weight: 600; }
+.check { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 14px; font-weight: 600; color: var(--muted); cursor: pointer; }
+.check input { width: 18px; height: 18px; accent-color: var(--done); }
+.prompt { margin-top: 10px; background: var(--code); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 14.5px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.copy { margin-top: 8px; font: 600 13px var(--body); padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.copy:focus-visible, .check input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.note { font-size: 14px; color: var(--muted); border-left: 3px solid var(--line); padding-left: 12px; }
+footer { font-size: 13px; color: var(--muted); }
+footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">From Sxandoval</div>
+    <h1>Set up Claude the way I use it</h1>
+    <p class="lede">I use Claude to edit my vlogs, make thumbnails, write descriptions and even built my live views website. Follow these steps in order and you'll have the same setup, ready for your music.</p>
+    <div class="meta"><span class="chip">About 30 minutes</span><span class="chip">Mac or Windows computer</span><span class="chip">Claude Pro, $20 a month</span></div>
+  </header>
+
+  <div class="progress" aria-live="polite"><span id="count">0 of 8 done</span><div class="bar"><i id="fill"></i></div></div>
+
+  <ol class="steps">
+    <li class="step">
+      <h2>Make a Claude account and get Pro</h2>
+      <p>Go to <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>, sign up, then upgrade to <b>Pro</b> (the $20 a month plan).</p>
+      <p class="why">Pro is what lets Claude work on your own computer: your files, your music, your projects.</p>
+      <label class="check"><input type="checkbox"> Done</label>
+    </li>
+    <li class="step">
+      <h2>Install the Claude desktop app</h2>
+      <p>Download it from <a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a> on your computer, open it and sign in with the same account.</p>
+      <p class="why">The desktop app is where all the real work happens. The phone app is just for talking to it.</p>
+      <label class="check"><input type="checkbox"> Done</label>
+    </li>
+    <li class="step">
+      <h2>Make a folder for your music kit</h2>
+      <p>On your computer (or an external drive), make a new folder called <b>music-kit</b>. This is Claude's workspace: everything it builds for you lives here.</p>
+      <p class="why">Keep your songs and stems wherever they are now. Claude reads them in place.</p>
+      <label class="check"><input type="checkbox"> Done</label>
+    </li>
+    <li class="step">
+      <h2>Open the Code tab and pick your folder</h2>
+      <p>In the desktop app, switch to the <b>Code</b> tab at the top, start a new session and choose your <b>music-kit</b> folder.</p>
+      <p class="why">This mode lets Claude run tools, make files and build things for you, instead of only chatting.</p>
+      <label class="check"><input type="checkbox"> Done</label>
+    </li>
+    <li class="step">
+      <h2>Paste this first message</h2>
+      <p>Copy this into the session and send it. Claude will set itself up for you and ask you a few questions.</p>
+      <div class="prompt" id="p1">I'm a music artist and I release my music through DistroKid. Set up this folder as my own kit, like my brother's vlog kit: a CLAUDE.md with my rules, skills for the things I do often, and a settings file. Install anything my computer needs and walk me through it step by step, one thing at a time, with plain words. Things I want help with: release planning, cover art ideas, captions and posts for my songs, short videos for TikTok and Reels, and a page that shows my total DistroKid earnings and streams.</div>
+      <button class="copy" data-for="p1">Copy message</button>
+      <label class="check"><input type="checkbox"> Done</label>
+    </li>
+    <li class="step">
+      <h2>Answer its questions and let it install things</h2>
+      <p>Claude will ask about your music and may want to install free tools (like ffmpeg for audio and video). Say yes to the ones it explains.</p>
+      <p class="note">Two rules I follow: if a tool needs a password or an API key, <b>you</b> paste it into the file Claude tells you, never into the chat. And read what Claude wants to do before you approve it.</p>
+      <label class="check"><input type="checkbox"> Done</label>
+    </li>
+    <li class="step">
+      <h2>Build your earnings page</h2>
+      <p>In DistroKid, go to <b>Bank</b>, then <b>See excruciating detail</b>, and download the <b>TSV</b> file. Then send Claude this:</p>
+      <div class="prompt" id="p2">Build me a page that shows my total DistroKid earnings for my whole career, big like a digital clock on a wall, plus total streams, top songs and money by store. I'll drop in my DistroKid TSV file, and it should stay on my device, never uploaded. Make it look like a 3D music studio with me as a Lego-style character.</div>
+      <button class="copy" data-for="p2">Copy message</button>
+      <p class="why">DistroKid doesn't let apps read your earnings automatically, so you drop in a fresh file whenever you want it updated (about once a month).</p>
+      <label class="check"><input type="checkbox"> Done</label>
+    </li>
+    <li class="step">
+      <h2>Control it from your phone</h2>
+      <p>In the desktop app, turn on <b>Remote Control</b> for your session. Then open the Claude app on your phone and you can keep talking to it while your computer does the work.</p>
+      <p class="why">Leave the computer on and the desktop app open while it works.</p>
+      <label class="check"><input type="checkbox"> Done</label>
+    </li>
+  </ol>
+
+  <footer>Questions? Text me. Want to see what this can make? Check my live views room at <a href="https://sxandoval.github.io">sxandoval.github.io</a></footer>
+</div>
+<script>
+(() => {
+  const steps = [...document.querySelectorAll(".step")], boxes = steps.map(s => s.querySelector(".check input"));
+  let saved = []; try { saved = JSON.parse(localStorage.getItem("setup-done") || "[]"); } catch (e) {}
+  const update = () => {
+    const done = boxes.map(b => b.checked); steps.forEach((s, i) => s.classList.toggle("done", done[i]));
+    const n = done.filter(Boolean).length; document.getElementById("count").textContent = n + " of " + steps.length + " done";
+    document.getElementById("fill").style.width = (n / steps.length * 100) + "%";
+    try { localStorage.setItem("setup-done", JSON.stringify(done)); } catch (e) {}
+  };
+  boxes.forEach((b, i) => { b.checked = !!saved[i]; b.addEventListener("change", update); });
+  update();
+  document.querySelectorAll(".copy").forEach(btn => btn.addEventListener("click", async () => {
+    const el = document.getElementById(btn.dataset.for);
+    try { await navigator.clipboard.writeText(el.textContent); btn.textContent = "Copied ✓"; }
+    catch (e) { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "Selected, press copy"; }
+    setTimeout(() => (btn.textContent = "Copy message"), 2000);
+  }));
+})();
+</script>
+</body>
+</html>
